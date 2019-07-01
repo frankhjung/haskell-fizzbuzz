@@ -1,5 +1,5 @@
 image:
-  name: haskell:8.4.4
+  name: haskell:8.6.5
   entrypoint: [""]
 
 before_script:
