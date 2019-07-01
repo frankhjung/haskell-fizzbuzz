@@ -1,0 +1,27 @@
+image:
+  name: haskell:8.4.4
+  entrypoint: [""]
+
+before_script:
+  - apt-get update -qq && apt-get install -y -qq hasktags hlint stylish-haskell
+
+stages:
+  - all
+
+variables:
+  RTSOPTS: "+RTS -N1"
+  STACK_ROOT: "${CI_PROJECT_DIR}/.stack"
+
+cache:
+  key: fizzbuzz-cache
+  paths:
+    - .stack
+    - .stack-work
+
+all:
+  stage: all
+  script:
+    - make setup clean all
+  artifacts:
+    paths:
+      - .stack-work/
