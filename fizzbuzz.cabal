@@ -36,4 +36,5 @@ test-suite test
                      -threaded
   build-depends:     base >= 4.7 && < 5
                    , hspec
+                   , QuickCheck
                    , fizzbuzz
