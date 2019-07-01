@@ -9,7 +9,6 @@ pool:
 steps:
 
 - script: |
-    # sudo apt-get install -y make ghc
     curl -sSL https://get.haskellstack.org/ | sh
     stack setup
   displayName: dependencies
