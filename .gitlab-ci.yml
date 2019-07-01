@@ -21,7 +21,7 @@ cache:
 all:
   stage: all
   script:
-    - make setup clean all
+    - make all
   artifacts:
     paths:
       - .stack-work/
