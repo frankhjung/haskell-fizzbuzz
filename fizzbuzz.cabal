@@ -14,26 +14,26 @@ cabal-version:       >=1.10
 extra-source-files:  README.md
 
 executable fizzbuzz
-  hs-source-dirs:      app
-  main-is:             Main.hs
-  default-language:    Haskell2010
-  build-depends:       base >= 4.7 && < 5
-                     , fizzbuzz
+  hs-source-dirs:    app
+  main-is:           Main.hs
+  default-language:  Haskell2010
+  build-depends:     base >= 4.7 && < 5
+                   , fizzbuzz
 
 library
-  hs-source-dirs:      src
-  default-language:    Haskell2010
-  exposed-modules:     FizzBuzz
-  ghc-options:         -Wall
-  build-depends:       base >= 4.7 && < 5
+  hs-source-dirs:    src
+  default-language:  Haskell2010
+  exposed-modules:   FizzBuzz
+  ghc-options:       -Wall
+  build-depends:     base >= 4.7 && < 5
 
 test-suite test
-  hs-source-dirs:   test
-  default-language: Haskell2010
-  main-is:          Test.hs
-  type:             exitcode-stdio-1.0
-  ghc-options:      -Wall
-                    -threaded
-  build-depends:    base >= 4.7 && < 5
-                  , hspec
-                  , fizzbuzz
+  hs-source-dirs:    test
+  default-language:  Haskell2010
+  main-is:           Test.hs
+  type:              exitcode-stdio-1.0
+  ghc-options:       -Wall
+                     -threaded
+  build-depends:     base >= 4.7 && < 5
+                   , hspec
+                   , fizzbuzz
