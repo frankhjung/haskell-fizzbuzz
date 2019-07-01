@@ -2,41 +2,32 @@
 
 module Main(main) where
 
-import           FizzBuzz   (fizzbuzz)
-import           Test.Hspec (context, describe, hspec, it, shouldBe)
+import           FizzBuzz        (fizzbuzz)
+import           Test.Hspec      (describe, hspec, it, shouldBe)
+import           Test.QuickCheck
+
+genMod3 :: Gen Int
+genMod3 = (arbitrary :: Gen Int) `suchThat` \x -> x > 0 && x `mod` 3 == 0 && x `mod` 5 /= 0
+
+genMod5 :: Gen Int
+genMod5 = (arbitrary :: Gen Int) `suchThat` \x -> x > 0 && x `mod` 3 /= 0 && x `mod` 5 == 0
+
+genMod3and5 :: Gen Int
+genMod3and5 = (\x -> 15 * abs x) `fmap` (arbitrary :: Gen Int) `suchThat` (> 0)
+
+genNotFizzBuzz :: Gen Int
+genNotFizzBuzz = abs `fmap` (arbitrary :: Gen Int) `suchThat` \x -> x `mod` 3 /= 0 && x `mod` 5 /= 0
+
 
 main :: IO ()
-main = hspec $ do
+main = hspec $
 
-  describe "return number if not multiples of 3 or 5" $ do
-    context "1 = 1?" $
-      it "returns 1" $
-        fizzbuzz 1 `shouldBe` "1"
-    context "8 = 8?" $
-      it "returns 8" $
-        fizzbuzz 8 `shouldBe` "8"
-
-  describe "fizz are multiples of 3" $ do
-    context "3 = fizz?" $
-      it "returns fizz" $
-        fizzbuzz 3 `shouldBe` "fizz"
-    context "9 = fizz?" $
-      it "returns fizz" $
-        fizzbuzz 9 `shouldBe` "fizz"
-
-  describe "buzz are multiples of 5" $ do
-    context "5 = buzz?" $
-      it "returns buzz" $
-        fizzbuzz 5 `shouldBe` "buzz"
-    context "10 = buzz?" $
-      it "returns buzz" $
-        fizzbuzz 10 `shouldBe` "buzz"
-
-  describe "fizzbuzz are multiples of 3 and 5" $ do
-    context "15 = fizzbuzz?" $
-      it "returns fizzbuzz" $
-        fizzbuzz 15 `shouldBe` "fizzbuzz"
-    context "30 = fizzbuzz?" $
-      it "returns fizzbuzz" $
-        fizzbuzz 30 `shouldBe` "fizzbuzz"
-
+  describe "modulo checks" $ do
+    it "if modulo 3 then fizz" $
+      property $ forAll genMod3 $ \n -> fizzbuzz n `shouldBe` "fizz"
+    it "if modulo 5 then buzz" $
+      property $ forAll genMod5 $ \n -> fizzbuzz n `shouldBe` "buzz"
+    it "if modulo 3 & 5 then fizzbuzz" $
+      property $ forAll genMod3and5 $ \n -> fizzbuzz n `shouldBe` "fizzbuzz"
+    it "if not modulo 3 or 5 then n" $
+      property $ forAll genNotFizzBuzz $ \n -> fizzbuzz n `shouldBe` show n

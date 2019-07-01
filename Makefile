@@ -3,7 +3,7 @@
 .PHONY: build check tags style lint test exec doc clean cleanall setup
 
 TARGET	:= fizzbuzz
-SRCS	:= $(wildcard *.hs */*.hs)
+SRCS	:= $(wildcard *.hs **/*.hs)
 
 .default: build
 
