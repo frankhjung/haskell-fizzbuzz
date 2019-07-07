@@ -27,7 +27,7 @@ test:
 	@stack test --coverage
 
 exec:
-	@stack exec $(TARGET)
+	@stack exec $(TARGET) 30
 
 doc:
 	@stack haddock

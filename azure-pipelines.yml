@@ -20,3 +20,7 @@ steps:
 - script: |
     stack test --coverage
   displayName: test
+
+- script: |
+    stack exec fizzbuzz 30
+  displayName: run
