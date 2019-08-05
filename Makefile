@@ -5,12 +5,10 @@
 TARGET	:= fizzbuzz
 SRCS	:= $(wildcard *.hs **/*.hs)
 
-.default: build
+.PHONY:	default
+default: check build test
 
-build:	check
-	@stack build
-
-all:	build test doc exec
+all:	check build test doc exec
 
 check:	tags style lint
 
@@ -23,13 +21,17 @@ style:
 lint:
 	@hlint $(SRCS)
 
+build:
+	@stack build --pedantic --no-test --ghc-options='-O2'
+
 test:
-	@stack test --coverage
+	@stack test
 
 exec:
 	@stack exec $(TARGET) 30
 
 doc:
+	@stack test --coverage
 	@stack haddock
 
 setup:
