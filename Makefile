@@ -31,12 +31,12 @@ exec:
 	@stack exec $(TARGET) 30
 
 doc:
-	@stack test --coverage
+	@stack test --ghc-options -fhpc --coverage
 	@stack haddock
 
 setup:
 	-stack setup
-	-stack build --dependencies-only --test --no-run-tests
+	-stack build --dependencies-only
 	-stack query
 	-stack ls dependencies
 
