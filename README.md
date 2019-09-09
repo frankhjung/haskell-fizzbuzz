@@ -14,6 +14,8 @@ word "buzz". Numbers that are divisible by 15, which is both become "fizz buzz".
 ## Documentation
 
 * [GitHub Pages](https://frankhjung.github.io/haskell-fizzbuzz/)
+	* [API](https://frankhjung.github.io/haskell-fizzbuzz/index.html)
+	* [Test Coverage](https://frankhjung.github.io/haskell-fizzbuzz/fizzbuzz/test/hpc_index.html)
 * [GitLab Pages](https://frankhjung1.gitlab.io/haskell-fizzbuzz/)
 
 ## Pipelines

@@ -14,7 +14,7 @@ variables:
 
 build:
   image:
-    name: frankhjung/haskell:latest
+    name: frankhjung/haskell:8.6.5
     entrypoint: [""]
   stage: build
   script:
