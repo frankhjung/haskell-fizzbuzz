@@ -1,8 +1,8 @@
 resolver: lts-13.19
-flags: {}
-allow-newer: true
-packages:
-  - '.'
-extra-deps: []
 arch: x86_64
 system-ghc: true
+ghc-options:
+  $locals: -Wall -O2
+allow-newer: true
+packages: ['.']
+extra-deps: []

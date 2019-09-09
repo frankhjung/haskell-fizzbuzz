@@ -19,12 +19,15 @@ build:
   stage: build
   script:
     - make setup clean all
+  except:
+    - tags
 
 pages:
   image: alpine:latest
   stage: deploy
   script:
     - mkdir -p public
+    - cp -pr .stack-work/install/x86_64-linux/*/*/hpc/* public/
     - cp -pr .stack-work/dist/x86_64-linux/Cabal-*/doc/html/fizzbuzz/* public/
   artifacts:
     paths:

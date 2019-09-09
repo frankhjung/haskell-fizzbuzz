@@ -3,7 +3,8 @@
 .PHONY: build check tags style lint test exec doc clean cleanall setup
 
 TARGET	:= fizzbuzz
-SRCS	:= $(wildcard *.hs **/*.hs)
+SRCS	:= $(wildcard *.hs */*.hs)
+ARGS	?= 15
 
 .PHONY:	default
 default: check build test
@@ -22,27 +23,35 @@ lint:
 	@hlint $(SRCS)
 
 build:
-	@stack build --pedantic --no-test --ghc-options='-O2'
+	@stack build
 
 test:
 	@stack test
 
-exec:
-	@stack exec $(TARGET) 30
+exec:	# Example:  make ARGS="30" exec
+	@stack exec $(TARGET) -- $(ARGS)
 
 doc:
-	@stack test --ghc-options -fhpc --coverage
-	@stack haddock
+	@stack test --coverage
+	@stack haddock --fast
+
+install:
+	@stack install --local-bin-path $(HOME)/bin
 
 setup:
-	-stack setup
-	-stack build --dependencies-only
-	-stack query
-	-stack ls dependencies
+	@stack update
+	@stack setup
+	@stack build
+	@stack query
+	@stack ls dependencies
+	#-stack exec ghc-pkg -- list
+
+ghci:
+	@stack ghci --ghci-options -Wno-type-defaults
 
 clean:
 	@stack clean
-	@$(RM) -rf $(TARGET).tix
+	@$(RM) -rf *.tix
 
 cleanall: clean
 	@$(RM) -rf .stack-work/

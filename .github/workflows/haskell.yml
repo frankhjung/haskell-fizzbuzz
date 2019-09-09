@@ -1,6 +1,9 @@
 name: haskell fizzbuzz
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
 
@@ -22,7 +25,7 @@ jobs:
         stack setup
 
     - name: build
-      run: stack build --pedantic --no-test --ghc-options='-O2'
+      run: stack build
 
     - name: test
       run: stack test
@@ -33,11 +36,12 @@ jobs:
     - name: documentation
       run: |
         stack test --coverage
-        stack haddock
+        stack haddock --fast
 
     - name: copy
       run: |
         mkdir -p public
+        cp -pr .stack-work/install/x86_64-linux/*/*/hpc/* public/
         cp -pr .stack-work/dist/x86_64-linux/Cabal-*/doc/html/fizzbuzz/* public/
 
     - name: publish

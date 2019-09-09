@@ -1,5 +1,5 @@
 name:                fizzbuzz
-version:             0.1.0
+version:             0.2.0
 synopsis:            An implementation of FizzBuzz
 description:         An implementation of FizzBuzz in Haskell.
 homepage:            https://github.com/frankhjung/fizzbuzz#readme
@@ -17,24 +17,21 @@ executable fizzbuzz
   hs-source-dirs:    app
   main-is:           Main.hs
   default-language:  Haskell2010
-  build-depends:     base >= 4.7 && < 5
+  build-depends:     base
                    , fizzbuzz
 
 library
   hs-source-dirs:    src
   default-language:  Haskell2010
   exposed-modules:   FizzBuzz
-  ghc-options:       -Wall
-  build-depends:     base >= 4.7 && < 5
+  build-depends:     base
 
 test-suite test
   hs-source-dirs:    test
   default-language:  Haskell2010
   main-is:           Test.hs
   type:              exitcode-stdio-1.0
-  ghc-options:       -Wall
-                     -threaded
-  build-depends:     base >= 4.7 && < 5
+  build-depends:     base
                    , hspec
                    , QuickCheck
                    , fizzbuzz
