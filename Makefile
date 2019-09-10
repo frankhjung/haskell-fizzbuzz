@@ -41,10 +41,10 @@ install:
 setup:
 	@stack update
 	@stack setup
-	@stack build
+	#stack build
 	@stack query
 	@stack ls dependencies
-	#-stack exec ghc-pkg -- list
+	#stack exec ghc-pkg -- list
 
 ghci:
 	@stack ghci --ghci-options -Wno-type-defaults
