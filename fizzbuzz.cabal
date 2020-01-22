@@ -1,5 +1,5 @@
 name:                fizzbuzz
-version:             0.2.0
+version:             0.3.0
 synopsis:            An implementation of FizzBuzz
 description:         An implementation of FizzBuzz in Haskell.
 homepage:            https://github.com/frankhjung/fizzbuzz#readme
