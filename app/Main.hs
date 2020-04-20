@@ -1,16 +1,18 @@
 module Main where
 
-import           FizzBuzz           (fizzbuzz, fizzbuzz')
+import           FizzBuzz           (fizzbuzz1, fizzbuzz2)
 import           System.Environment
 
-play :: Int -> [String]
-play n = map fizzbuzz [1..n]
+play1 :: Int -> [String]
+play1 n = map fizzbuzz1 [1..n]
 
-play' :: Int -> [String]
-play' = fizzbuzz'
+play2 :: Int -> [String]
+play2 = fizzbuzz2
 
 main :: IO ()
 main = do
   n <- fmap (read . head) getArgs :: IO Int
-  mapM_ putStrLn (play' n)
-
+  putStrLn "fizzbuzz 1"
+  mapM_ putStrLn (play1 n)
+  putStrLn "\nfizzbuzz 2"
+  mapM_ putStrLn (play2 n)

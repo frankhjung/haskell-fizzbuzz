@@ -25,5 +25,6 @@ word "buzz". Numbers that are divisible by 15, which is both become "fizz buzz".
 
 ## References
 
-* https://en.wikipedia.org/wiki/Fizz_buzz
-* https://themonadreader.files.wordpress.com/2014/04/fizzbuzz.pdf
+* [Wikipedia: Fizz Buzz](https://en.wikipedia.org/wiki/Fizz_buzz)
+* [FizzBuzz in Haskell by Embedding a Domain-Specific
+	Language](https://themonadreader.files.wordpress.com/2014/04/fizzbuzz.pdf)

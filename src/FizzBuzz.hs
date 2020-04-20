@@ -12,7 +12,7 @@
 
 -}
 
-module FizzBuzz (fizzbuzz, fizzbuzz') where
+module FizzBuzz (fizzbuzz1, fizzbuzz2) where
 
 import           Data.List  (zipWith)
 import           Data.Maybe (fromMaybe)
@@ -23,22 +23,26 @@ import           Data.Maybe (fromMaybe)
 --    * buzz if modulo 5
 --    * fizzbuzz if modulo 3 and 5
 --    * n for all other numbers
-fizzbuzz :: Int -> String
-fizzbuzz n = (fizz . buzz) id (show n)
+--
+--  Source: https://themonadreader.files.wordpress.com/2014/04/fizzbuzz.pdf
+fizzbuzz1 :: Int -> String
+fizzbuzz1 n = (fizz . buzz) id (show n)
   where
-    fizz | n `mod` 3 == 0 = \x -> const ("fizz" ++ x "")
+    fizz | n `mod` 3 == 0 = \x -> const ("Fizz" ++ x "")
          | otherwise = id
-    buzz | n `mod` 5 == 0 = \x -> const ("buzz" ++ x "")
+    buzz | n `mod` 5 == 0 = \x -> const ("Buzz" ++ x "")
          | otherwise = id
 
 -- | Semigroup resonance FizzBuzz by Mark Seemann.
--- This "FizzBuzz kata uses the fundamental concepts of catamorphism, semigroup
--- and monoid. No if-then-else instructions or pattern matching is required.
+--
+-- This "FizzBuzz Kata uses the fundamental concepts of catamorphism, semigroup
+-- No if-then-else instructions or pattern matching is required.
 -- Instead, we use the string concatenation semigroup to enable resonance between
 -- two pulses, and the maybe catamorphism to combine with the list of numbers."
+--
 -- Source: https://blog.ploeh.dk/2019/12/30/semigroup-resonance-fizzbuzz/
-fizzbuzz' :: Int -> [String]
-fizzbuzz' n = zipWith fromMaybe numbers fizzBuzzes
+fizzbuzz2 :: Int -> [String]
+fizzbuzz2 n = zipWith fromMaybe numbers fizzBuzzes
   where
     numbers :: [String]
     numbers = show <$> [1..n]

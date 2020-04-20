@@ -2,7 +2,7 @@
 
 module Main(main) where
 
-import           FizzBuzz        (fizzbuzz)
+import           FizzBuzz        (fizzbuzz1, fizzbuzz2)
 import           Test.Hspec      (describe, hspec, it, shouldBe)
 import           Test.QuickCheck
 
@@ -22,12 +22,14 @@ genNotFizzBuzz = abs `fmap` (arbitrary :: Gen Int) `suchThat` \x -> x `mod` 3 /=
 main :: IO ()
 main = hspec $
 
-  describe "modulo checks" $ do
+  describe "modulo checks fizzbuzz1" $ do
     it "if modulo 3 then fizz" $
-      property $ forAll genMod3 $ \n -> fizzbuzz n `shouldBe` "fizz"
+      property $ forAll genMod3 $ \n -> fizzbuzz1 n `shouldBe` "Fizz"
     it "if modulo 5 then buzz" $
-      property $ forAll genMod5 $ \n -> fizzbuzz n `shouldBe` "buzz"
+      property $ forAll genMod5 $ \n -> fizzbuzz1 n `shouldBe` "Buzz"
     it "if modulo 3 & 5 then fizzbuzz" $
-      property $ forAll genMod3and5 $ \n -> fizzbuzz n `shouldBe` "fizzbuzz"
+      property $ forAll genMod3and5 $ \n -> fizzbuzz1 n `shouldBe` "FizzBuzz"
     it "if not modulo 3 or 5 then n" $
-      property $ forAll genNotFizzBuzz $ \n -> fizzbuzz n `shouldBe` show n
+      property $ forAll genNotFizzBuzz $ \n -> fizzbuzz1 n `shouldBe` show n
+    it "fizzbuzz1 == fizzbuzz2" $
+      property $ forAll genNotFizzBuzz $ \n -> map fizzbuzz1 [1..n] `shouldBe` fizzbuzz2 n
