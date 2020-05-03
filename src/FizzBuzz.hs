@@ -52,4 +52,3 @@ fizzbuzz2 n = zipWith fromMaybe numbers fizzBuzzes
     buzzes = cycle [Nothing, Nothing, Nothing, Nothing, Just "Buzz"]
     fizzBuzzes :: [Maybe String]
     fizzBuzzes = zipWith (<>) fizzes buzzes
-
