@@ -4,7 +4,7 @@
 
   Module      : FizzBuzz
   Description : An implementation of FizzBuzz
-  Copyright   : © Frank Jung, 2019
+  Copyright   : © Frank Jung, 2019, 2020
   License     : GPL-3
   Maintainer  : frankhjung@linux.com
   Stability   : education
@@ -26,12 +26,10 @@ import           Data.Maybe (fromMaybe)
 --
 --  Source: https://themonadreader.files.wordpress.com/2014/04/fizzbuzz.pdf
 fizzbuzz1 :: Int -> String
-fizzbuzz1 n = (fizz . buzz) id (show n)
+fizzbuzz1 n = (test 3 "Fizz" . test 5 "Buzz") id (show n)
   where
-    fizz | n `mod` 3 == 0 = \x -> const ("Fizz" ++ x "")
-         | otherwise = id
-    buzz | n `mod` 5 == 0 = \x -> const ("Buzz" ++ x "")
-         | otherwise = id
+    test d s x  | n `mod` d == 0 = const (s ++ x "")
+                | otherwise = x
 
 -- | Semigroup resonance FizzBuzz by Mark Seemann.
 --
