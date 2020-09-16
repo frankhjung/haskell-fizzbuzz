@@ -1,0 +1,77 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style type="text/css">
+span.lineno { color: white; background: #aaaaaa; border-right: solid white 12px }
+span.nottickedoff { background: yellow}
+span.istickedoff { background: white }
+span.tickonlyfalse { margin: -1px; border: 1px solid #f20913; background: #f20913 }
+span.tickonlytrue  { margin: -1px; border: 1px solid #60de51; background: #60de51 }
+span.funcount { font-size: small; color: orange; z-index: 2; position: absolute; right: 20 }
+span.decl { font-weight: bold }
+span.spaces    { background: white }
+</style>
+</head>
+<body>
+<pre>
+<span class="decl"><span class="nottickedoff">never executed</span> <span class="tickonlytrue">always true</span> <span class="tickonlyfalse">always false</span></span>
+</pre>
+<pre>
+<span class="lineno">    1 </span>{-# LANGUAGE UnicodeSyntax #-}
+<span class="lineno">    2 </span>
+<span class="lineno">    3 </span>{-|
+<span class="lineno">    4 </span>
+<span class="lineno">    5 </span>  Module      : FizzBuzz
+<span class="lineno">    6 </span>  Description : An implementation of FizzBuzz
+<span class="lineno">    7 </span>  Copyright   : © Frank Jung, 2019
+<span class="lineno">    8 </span>  License     : GPL-3
+<span class="lineno">    9 </span>  Maintainer  : frankhjung@linux.com
+<span class="lineno">   10 </span>  Stability   : education
+<span class="lineno">   11 </span>  Portability : Linux
+<span class="lineno">   12 </span>
+<span class="lineno">   13 </span>-}
+<span class="lineno">   14 </span>
+<span class="lineno">   15 </span>module FizzBuzz (fizzbuzz1, fizzbuzz2) where
+<span class="lineno">   16 </span>
+<span class="lineno">   17 </span>import           Data.List  (zipWith)
+<span class="lineno">   18 </span>import           Data.Maybe (fromMaybe)
+<span class="lineno">   19 </span>
+<span class="lineno">   20 </span>-- | Given n returns fizzbuzzes.
+<span class="lineno">   21 </span>--
+<span class="lineno">   22 </span>--    * fizz if modulo 3
+<span class="lineno">   23 </span>--    * buzz if modulo 5
+<span class="lineno">   24 </span>--    * fizzbuzz if modulo 3 and 5
+<span class="lineno">   25 </span>--    * n for all other numbers
+<span class="lineno">   26 </span>--
+<span class="lineno">   27 </span>--  Source: https://themonadreader.files.wordpress.com/2014/04/fizzbuzz.pdf
+<span class="lineno">   28 </span>fizzbuzz1 :: Int -&gt; String
+<span class="lineno">   29 </span><span class="decl"><span class="istickedoff">fizzbuzz1 n = (fizz . buzz) id (show n)</span>
+<span class="lineno">   30 </span><span class="spaces">  </span><span class="istickedoff">where</span>
+<span class="lineno">   31 </span><span class="spaces">    </span><span class="istickedoff">fizz | n `mod` 3 == 0 = \x -&gt; const (&quot;Fizz&quot; ++ x &quot;&quot;)</span>
+<span class="lineno">   32 </span><span class="spaces">         </span><span class="istickedoff">| <span class="tickonlytrue">otherwise</span> = id</span>
+<span class="lineno">   33 </span><span class="spaces">    </span><span class="istickedoff">buzz | n `mod` 5 == 0 = \x -&gt; const (&quot;Buzz&quot; ++ x &quot;&quot;)</span>
+<span class="lineno">   34 </span><span class="spaces">         </span><span class="istickedoff">| <span class="tickonlytrue">otherwise</span> = id</span></span>
+<span class="lineno">   35 </span>
+<span class="lineno">   36 </span>-- | Semigroup resonance FizzBuzz by Mark Seemann.
+<span class="lineno">   37 </span>--
+<span class="lineno">   38 </span>-- This &quot;FizzBuzz Kata uses the fundamental concepts of catamorphism, semigroup
+<span class="lineno">   39 </span>-- No if-then-else instructions or pattern matching is required.
+<span class="lineno">   40 </span>-- Instead, we use the string concatenation semigroup to enable resonance between
+<span class="lineno">   41 </span>-- two pulses, and the maybe catamorphism to combine with the list of numbers.&quot;
+<span class="lineno">   42 </span>--
+<span class="lineno">   43 </span>-- Source: https://blog.ploeh.dk/2019/12/30/semigroup-resonance-fizzbuzz/
+<span class="lineno">   44 </span>fizzbuzz2 :: Int -&gt; [String]
+<span class="lineno">   45 </span><span class="decl"><span class="istickedoff">fizzbuzz2 n = zipWith fromMaybe numbers fizzBuzzes</span>
+<span class="lineno">   46 </span><span class="spaces">  </span><span class="istickedoff">where</span>
+<span class="lineno">   47 </span><span class="spaces">    </span><span class="istickedoff">numbers :: [String]</span>
+<span class="lineno">   48 </span><span class="spaces">    </span><span class="istickedoff">numbers = show &lt;$&gt; [1..n]</span>
+<span class="lineno">   49 </span><span class="spaces">    </span><span class="istickedoff">fizzes :: [Maybe String]</span>
+<span class="lineno">   50 </span><span class="spaces">    </span><span class="istickedoff">fizzes = cycle [Nothing, Nothing, Just &quot;Fizz&quot;]</span>
+<span class="lineno">   51 </span><span class="spaces">    </span><span class="istickedoff">buzzes :: [Maybe String]</span>
+<span class="lineno">   52 </span><span class="spaces">    </span><span class="istickedoff">buzzes = cycle [Nothing, Nothing, Nothing, Nothing, Just &quot;Buzz&quot;]</span>
+<span class="lineno">   53 </span><span class="spaces">    </span><span class="istickedoff">fizzBuzzes :: [Maybe String]</span>
+<span class="lineno">   54 </span><span class="spaces">    </span><span class="istickedoff">fizzBuzzes = zipWith (&lt;&gt;) fizzes buzzes</span></span>
+
+</pre>
+</body>
+</html>
