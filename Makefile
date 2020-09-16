@@ -32,7 +32,7 @@ test:
 	@echo test ...
 	@stack test
 
-exec:	# Example:  make ARGS="30" exec
+exec:	# Example:  make ARGS=30 exec
 	@stack exec $(TARGET) -- $(ARGS)
 
 doc:

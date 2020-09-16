@@ -12,7 +12,4 @@ play2 = fizzbuzz2
 main :: IO ()
 main = do
   n <- fmap (read . head) getArgs :: IO Int
-  putStrLn "fizzbuzz 1"
-  mapM_ putStrLn (play1 n)
-  putStrLn "\nfizzbuzz 2"
-  mapM_ putStrLn (play2 n)
+  mapM_ print $ zip3 [1..n] (play1 n) (play2 n)
