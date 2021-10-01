@@ -39,10 +39,7 @@ jobs:
         stack haddock --fast
 
     - name: copy
-      run: |
-        mkdir -p public
-        cp -pr .stack-work/install/x86_64-linux/*/*/hpc/* public/
-        cp -pr .stack-work/dist/x86_64-linux/Cabal-*/doc/html/fizzbuzz/* public/
+      run: mv $(stack path --local-doc-root) public/
 
     - name: publish
       uses: crazy-max/ghaction-github-pages@v0.4.0
