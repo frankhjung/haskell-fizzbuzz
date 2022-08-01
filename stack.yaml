@@ -1,8 +1,11 @@
 ---
+
 arch: x86_64
 system-ghc: true
-resolver: lts-14.27
+resolver: lts-18.28
 allow-newer: false
 flags: {}
 packages: ['.']
-extra-deps: []
+extra-deps:
+  - hspec-2.7.10
+  - QuickCheck-2.14.2

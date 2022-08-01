@@ -14,7 +14,7 @@
 
 module FizzBuzz (fizzbuzz1, fizzbuzz2) where
 
-import           Data.List  (zipWith)
+-- import           Data.List  (zipWith)
 import           Data.Maybe (fromMaybe)
 
 -- | Given n returns fizzbuzzes.

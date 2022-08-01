@@ -1,4 +1,4 @@
-module Main where
+module Main (main) where
 
 import           FizzBuzz           (fizzbuzz1, fizzbuzz2)
 import           System.Environment (getArgs)

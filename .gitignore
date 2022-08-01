@@ -26,3 +26,4 @@ stack.yaml.lock
 *.swp
 tags
 *.tix
+.vscode/

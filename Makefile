@@ -3,7 +3,8 @@
 .PHONY: build check default tags style lint test exec doc clean cleanall setup
 
 TARGET	:= fizzbuzz
-SRCS	:= $(wildcard *.hs */*.hs)
+SUBS	:= $(wildcard */)
+SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
 ARGS	?= 15
 
 default: check build test
@@ -22,11 +23,12 @@ style:	$(SRCS)
 
 lint:	$(SRCS)
 	@echo lint ...
-	@hlint --color $(SRCS)
+	@hlint --cross --color --show $(SRCS)
+	@cabal check
 
 build:
 	@echo build ...
-	@stack build --no-test
+	@stack build --verbosity info --pedantic --no-test
 
 test:
 	@echo test ...
@@ -58,6 +60,6 @@ clean:
 
 cleanall: clean
 	@stack clean --full
-	#$(RM) -rf .stack-work/
-	#$(RM) -rf $(patsubst %.hs, %.hi, $(SRCS))
-	#$(RM) -rf $(patsubst %.hs, %.o, $(SRCS))
+	@#$(RM) -rf .stack-work/
+	@#$(RM) -rf $(patsubst %.hs, %.hi, $(SRCS))
+	@#$(RM) -rf $(patsubst %.hs, %.o, $(SRCS))

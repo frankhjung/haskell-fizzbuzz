@@ -5,12 +5,12 @@ stages:
   - deploy
 
 build:
+  stage: build
   except:
     - tags
   image:
-    name: frankhjung/haskell:8.6.5
+    name: frankhjung/haskell:8.10.7
     entrypoint: [""]
-  stage: build
   variables:
     STACK_ROOT: ${CI_PROJECT_DIR}/.stack
   script:
@@ -20,21 +20,21 @@ build:
     paths:
       - public
   cache:
-    key: ${CI_COMMIT_REF_NAME}-${CI_JOB_NAME}
+    key: ${CI_COMMIT_REF_NAME}
     paths:
       - .stack
       - .stack-work
 
 pages:
+  stage: deploy
   only:
     refs:
       - master
-  image: alpine:latest
-  stage: deploy
-  script:
-    - echo Publishing documentation ...
   dependencies:
     - build
+  image: alpine:latest
+  script:
+    - echo Publishing pages ...
   artifacts:
     paths:
       - public
