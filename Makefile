@@ -49,7 +49,6 @@ setup:
 	@stack build
 	@stack query
 	@stack ls dependencies
-	#stack exec ghc-pkg -- list
 
 ghci:
 	@stack ghci --ghci-options -Wno-type-defaults
@@ -60,6 +59,3 @@ clean:
 
 cleanall: clean
 	@stack clean --full
-	@#$(RM) -rf .stack-work/
-	@#$(RM) -rf $(patsubst %.hs, %.hi, $(SRCS))
-	@#$(RM) -rf $(patsubst %.hs, %.o, $(SRCS))
