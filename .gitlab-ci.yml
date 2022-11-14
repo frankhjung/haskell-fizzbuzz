@@ -9,13 +9,13 @@ build:
   except:
     - tags
   image:
-    name: frankhjung/haskell:8.10.7
+    name: frankhjung/haskell:9.0.2
     entrypoint: [""]
   variables:
     STACK_ROOT: ${CI_PROJECT_DIR}/.stack
   script:
-    - make setup clean check build test doc exec
-    - mv $(stack path --local-doc-root) public/
+    - make clean check build test doc exec
+    - mv $(stack path --local-install-root)/doc/fizzbuzz-*/ public/
   artifacts:
     paths:
       - public
@@ -27,14 +27,13 @@ build:
 
 pages:
   stage: deploy
-  only:
-    refs:
-      - master
-  dependencies:
-    - build
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
   image: alpine:latest
   script:
-    - echo Publishing pages ...
+    - echo Publishing documentation ...
+  dependencies:
+    - build
   artifacts:
     paths:
       - public

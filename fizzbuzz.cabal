@@ -1,16 +1,16 @@
-cabal-version:        1.12
+cabal-version:        3.0
 
 name:                 fizzbuzz
-version:              0.5.0
+version:              0.6.0
 description:          An implementation of FizzBuzz in Haskell
 synopsis:             FizzBuzz
 homepage:             https://github.com/frankhjung/haskell-fizzbuzz#readme
 bug-reports:          https://github.com/frankhjung/haskell-fizzbuzz/issues
+license:              GPL-3.0-only
+license-file:         LICENSE
 author:               Frank H Jung
 maintainer:           frankhjung@linux.com
 copyright:            Copyright © 2019-2022 Frank H Jung
-license:              GPL-3
-license-file:         LICENSE
 category:             education
 build-type:           Simple
 extra-source-files:   README.md
@@ -35,7 +35,7 @@ test-suite            test
   ghc-options:        -threaded -rtsopts -with-rtsopts=-N -Wall
   other-modules:      FizzBuzz
   build-depends:      base
-                    , hspec >= 2.7 && < 2.8
+                    , hspec >= 2.7 && < 2.9
                     , QuickCheck >= 2.13 && < 2.15
 
 executable            fizzbuzz

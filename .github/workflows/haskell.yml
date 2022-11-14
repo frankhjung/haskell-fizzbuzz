@@ -11,41 +11,45 @@ on:
     types: [rerequested, requested_action]
 # yamllint enable
 
+env:
+  STACK_ROOT: ${{ github.workspace }}/.stack
+
 jobs:
 
   build:
+
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
 
     runs-on: ubuntu-latest
 
     steps:
 
       - name: checkout
-        uses: actions/checkout@v1.0.0
-        with:
-          ref: refs/heads/master
-          fetch-depth: 1
+        uses: actions/checkout@v3
 
-      - name: stack
-        run: |
-          stack upgrade
-          stack setup
+      - name: cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            .stack-work/
+            ${{ env.STACK_ROOT }}
+          key: ${{ github.ref }}
 
       - name: build
-        run: stack build
+        run: stack build --pedantic --no-test
 
       - name: test
-        run: stack test
+        run: stack test --coverage
 
       - name: exec
-        run: stack exec fizzbuzz 30
+        run: stack exec fizzbuzz -- 15 +RTS -s
 
-      - name: documentation
+      - name: doc
+        if: github.ref == 'refs/heads/master'
         run: |
           stack test --coverage
           stack haddock --fast
-
-      - name: copy
-        run: mv $(stack path --local-doc-root) public/
+          mv $(stack path --local-install-root)/doc/fizzbuzz-*/ public/
 
       - name: publish
         if: success() && github.ref == 'refs/heads/master'

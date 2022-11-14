@@ -1,61 +1,74 @@
 #!/usr/bin/env make
 
-.PHONY: build check default tags style lint test exec doc clean cleanall setup
 
-TARGET	:= fizzbuzz
-SUBS	:= $(wildcard */)
-SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
 ARGS	?= 15
+SRC	:= $(wildcard *.hs, */*.hs)
+RTSOPTS	?= +RTS -s
+TARGET	:= fizzbuzz
+YAML	:= $(shell git ls-files | grep --perl \.y?ml)
 
-default: check build test
+.PHONY: default
+default:	check build test exec
 
+.PHONY: all
 all:	check build test doc exec
 
+.PHONY: check
 check:	tags style lint
 
+.PHONY: tags
 tags:	$(SRCS)
 	@echo tags ...
-	@hasktags --ctags --extendedctag $(SRCS)
+	@hasktags --ctags --extendedctag $(SRC)
 
+.PHONY: style
 style:	$(SRCS)
 	@echo style ...
-	@stylish-haskell --config=.stylish-haskell.yaml --inplace $(SRCS)
+	@stylish-haskell --verbose --config=.stylish-haskell.yaml --inplace $(SRC)
 
-lint:	$(SRCS)
+.PHONY: lint
+lint:	$(SRC)
 	@echo lint ...
-	@hlint --cross --color --show $(SRCS)
-	@cabal check
+	@cabal check --verbose
+	@hlint --cross --color --show $(SRC)
+	@yamllint --strict $(YAML)
 
+.PHONY: build
 build:
 	@echo build ...
-	@stack build --verbosity info --pedantic --no-test
+	@stack build --pedantic
 
+.PHONY: test
 test:
 	@echo test ...
 	@stack test
 
-exec:	# Example:  make ARGS=30 exec
-	@stack exec $(TARGET) -- $(ARGS)
-
+.PHONY: doc
 doc:
-	@stack haddock --no-rerun-tests --no-reconfigure --haddock-deps
+	@stack haddock --no-haddock-deps
 
+.PHONY: exec
+exec:	# Example:  make ARGS=30 exec
+	-stack exec $(TARGET) -- $(ARGS) $(RTSOPTS)
+
+.PHONY: install
 install:
 	@stack install --local-bin-path $(HOME)/bin
 
+.PHONY: setup
 setup:
-	@stack update
-	@stack setup
-	@stack build
-	@stack query
-	@stack ls dependencies
+	stack path
+	stack query
+	stack ls dependencies
 
 ghci:
 	@stack ghci --ghci-options -Wno-type-defaults
 
+.PHONY: clean
 clean:
 	@stack clean
-	@$(RM) -rf *.tix
+	@cabal clean
 
+.PHONY: cleanall
 cleanall: clean
-	@stack clean --full
+	@stack purge
