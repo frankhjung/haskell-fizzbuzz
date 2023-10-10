@@ -8,22 +8,20 @@ build:
   stage: build
   except:
     - tags
-  image:
-    name: frankhjung/haskell:9.0.2
-    entrypoint: [""]
+  image: frankhjung/haskell:9.4.7
   variables:
-    STACK_ROOT: ${CI_PROJECT_DIR}/.stack
+    RTSOPTS: "+RTS -N1 -s"
+    STACK_ROOT: ${CI_PROJECT_DIR}/.stack-work
   script:
     - make clean check build test doc exec
-    - mv $(stack path --local-install-root)/doc/fizzbuzz-*/ public/
+    - mv $(stack path --local-doc-root)/ public/
   artifacts:
     paths:
       - public
   cache:
     key: ${CI_COMMIT_REF_NAME}
     paths:
-      - .stack
-      - .stack-work
+      - ${STACK_ROOT}
 
 pages:
   stage: deploy

@@ -8,26 +8,27 @@ TARGET	:= fizzbuzz
 YAML	:= $(shell git ls-files | grep --perl \.y?ml)
 
 .PHONY: default
-default:	check build test exec
+default:	format check build test exec
 
 .PHONY: all
-all:	check build test doc exec
+all:	format check build test doc exec
+
+.PHONY: format
+format:
+	@echo format ...
+	@stylish-haskell --config=.stylish-haskell.yaml --inplace $(SRC)
+	@cabal-fmt --inplace $(TARGET).cabal
 
 .PHONY: check
-check:	tags style lint
+check:	tags lint
 
 .PHONY: tags
-tags:	$(SRCS)
+tags:
 	@echo tags ...
 	@hasktags --ctags --extendedctag $(SRC)
 
-.PHONY: style
-style:	$(SRCS)
-	@echo style ...
-	@stylish-haskell --verbose --config=.stylish-haskell.yaml --inplace $(SRC)
-
 .PHONY: lint
-lint:	$(SRC)
+lint:
 	@echo lint ...
 	@cabal check --verbose
 	@hlint --cross --color --show $(SRC)
@@ -45,15 +46,11 @@ test:
 
 .PHONY: doc
 doc:
-	@stack haddock --no-haddock-deps
+	@stack haddock
 
 .PHONY: exec
 exec:	# Example:  make ARGS=30 exec
 	-stack exec $(TARGET) -- $(ARGS) $(RTSOPTS)
-
-.PHONY: install
-install:
-	@stack install --local-bin-path $(HOME)/bin
 
 .PHONY: setup
 setup:
