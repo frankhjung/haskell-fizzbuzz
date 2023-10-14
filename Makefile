@@ -1,11 +1,10 @@
 #!/usr/bin/env make
 
-
 ARGS	?= 15
 SRC	:= $(wildcard *.hs, */*.hs)
 RTSOPTS	?= +RTS -s
 TARGET	:= fizzbuzz
-YAML	:= $(shell git ls-files | grep --perl \.y?ml)
+YAML	:= $(shell git ls-files "*.y*ml")
 
 .PHONY: default
 default:	format check build test exec
@@ -16,8 +15,8 @@ all:	format check build test doc exec
 .PHONY: format
 format:
 	@echo format ...
-	@stylish-haskell --config=.stylish-haskell.yaml --inplace $(SRC)
 	@cabal-fmt --inplace $(TARGET).cabal
+	@stylish-haskell --config=.stylish-haskell.yaml --inplace $(SRC)
 
 .PHONY: check
 check:	tags lint
@@ -36,21 +35,21 @@ lint:
 
 .PHONY: build
 build:
-	@echo build ...
 	@stack build --pedantic
 
 .PHONY: test
 test:
-	@echo test ...
 	@stack test
 
 .PHONY: doc
 doc:
 	@stack haddock
 
+# Example:  make ARGS=30 exec
+# optional suffix: $(RTSOPTS)
 .PHONY: exec
-exec:	# Example:  make ARGS=30 exec
-	-stack exec $(TARGET) -- $(ARGS) $(RTSOPTS)
+exec:
+	stack exec $(TARGET) -- $(ARGS)
 
 .PHONY: setup
 setup:
